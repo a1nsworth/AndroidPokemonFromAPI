@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.lab3"
+    namespace = "ru.a1nsworth.lab3"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.lab3"
+        applicationId = "ru.a1nsworth.lab3"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -30,10 +30,14 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -42,4 +46,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    
 }
