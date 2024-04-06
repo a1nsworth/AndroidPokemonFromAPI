@@ -8,12 +8,12 @@ import ru.a1nsworth.lab3.R
 import ru.a1nsworth.lab3.databinding.PokemonAttackDetailBinding
 
 class AttackAdapter : RecyclerView.Adapter<AttackAdapter.AttackHolder>() {
-    var attacks: List<Pokemon.Attack> = arrayListOf()
+    var attacks: List<ru.a1nsworth.lab3.pokemon.PokemonWithAttack.String.Attack> = arrayListOf()
 
     class AttackHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val bindings = PokemonAttackDetailBinding.bind(item)
 
-        fun bind(attack: Pokemon.Attack) {
+        fun bind(attack: ru.a1nsworth.lab3.pokemon.PokemonWithAttack.String.Attack) {
             bindings.attackDamage.text = attack.damage
             bindings.attackDescription.text = attack.description
             bindings.attackName.text = attack.name

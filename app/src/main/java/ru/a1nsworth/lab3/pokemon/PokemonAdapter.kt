@@ -9,19 +9,20 @@ import ru.a1nsworth.lab3.databinding.PokemonItemBinding
 
 class PokemonAdapter(private val listener: ClickListener) :
     RecyclerView.Adapter<PokemonAdapter.PokemonHolder>() {
-    var pokemons: List<Pokemon> = arrayListOf()
+
+    var pokemons_names: List<String> = arrayListOf()
 
     interface ClickListener {
-        fun onClick(pokemon: Pokemon)
+        fun onClick(pokemon_name: String)
     }
 
     class PokemonHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val bindings = PokemonItemBinding.bind(item)
 
-        fun bind(pokemon: Pokemon, listener: ClickListener) {
-            bindings.pokemonImage.setImageBitmap(pokemon.bitmap)
+        fun bind(pokemon_name: String, listener: ClickListener) {
+//            bindings.pokemonImage.setImageBitmap(pokemon_name.bitmap)
 
-            itemView.setOnClickListener { listener.onClick(pokemon) }
+            itemView.setOnClickListener { listener.onClick(pokemon_name) }
         }
     }
 
@@ -32,10 +33,10 @@ class PokemonAdapter(private val listener: ClickListener) :
     }
 
     override fun getItemCount(): Int {
-        return pokemons.size
+        return pokemons_names.size
     }
 
     override fun onBindViewHolder(holder: PokemonHolder, position: Int) {
-        holder.bind(pokemons[position], listener)
+        holder.bind(pokemons_names[position], listener)
     }
 }
