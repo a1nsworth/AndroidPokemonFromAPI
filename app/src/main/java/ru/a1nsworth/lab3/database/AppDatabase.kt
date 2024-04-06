@@ -10,7 +10,7 @@ import ru.a1nsworth.lab3.model.pokemon.Attack
 import ru.a1nsworth.lab3.model.pokemon.Pokemon
 
 @Database(
-    version = 1,
+    version = 3,
     entities = [
         Pokemon::class,
         Attack::class

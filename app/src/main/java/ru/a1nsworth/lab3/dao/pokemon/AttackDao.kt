@@ -2,6 +2,7 @@ package ru.a1nsworth.lab3.dao.pokemon
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ru.a1nsworth.lab3.model.pokemon.Attack
 
@@ -13,12 +14,12 @@ interface AttackDao {
     @Query("SELECT * FROM attack WHERE id=:id")
     fun getById(id: Long): Attack
 
-    @Query("SELECT * FROM attack WHERE attack.pokemon_name=:name")
-    fun getByPokemonName(name: String): List<Attack>
+    @Query("SELECT * FROM attack WHERE attack.pokemon_id=:id")
+    fun getByPokemonId(id: Long): List<Attack>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(attack: Attack)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(attacks: List<Attack>)
 }

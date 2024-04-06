@@ -3,8 +3,10 @@ package ru.a1nsworth.lab3.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.a1nsworth.lab3.adapter.AttackAdapter
 import ru.a1nsworth.lab3.databinding.ActivityDetailBinding
-import ru.a1nsworth.lab3.pokemon.AttackAdapter
+import ru.a1nsworth.lab3.dependence.Database
+import ru.a1nsworth.lab3.model.pokemon.PokemonWithAttacks
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -15,19 +17,25 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val pokemon = intent.getSerializableExtra("pokemon") as String
-        pokemon.bitmap = intent.getParcelableExtra("bitMapImage")!!
-        attackAdapter.attacks = pokemon.attacks
+        val pokemonId = intent.getSerializableExtra("pokemonId") as Long
+        var pokemonWithAttacks: PokemonWithAttacks
+        Thread {
+            pokemonWithAttacks = Database.pokemonRepository.getPokemonWithAttacksById(pokemonId)
 
-        bind(pokemon)
+            runOnUiThread {
+                bind(pokemonWithAttacks)
+            }
+        }.start()
     }
 
-    private fun bind(pokemonWithAttack: String) {
+
+    private fun bind(pokemonWithAttacks: PokemonWithAttacks) {
         binding.apply {
-            pokemonImageDetail.setImageBitmap(pokemonWithAttack.bitmap)
-            pokemonHPDetail.text = pokemonWithAttack.hp
-            pokemonNameDetail.text = pokemonWithAttack.name
-            pokemonTypesDetail.text = pokemonWithAttack.types.joinToString()
+            attackAdapter.attacks = pokemonWithAttacks.attacks
+            pokemonImageDetail.setImageBitmap(pokemonWithAttacks.pokemon.image)
+            pokemonHPDetail.text = pokemonWithAttacks.pokemon.hp.toString()
+            pokemonNameDetail.text = pokemonWithAttacks.pokemon.name
+            pokemonTypesDetail.text = pokemonWithAttacks.pokemon.types.joinToString()
             attacksRecyclerView.layoutManager = LinearLayoutManager(
                 this@DetailActivity,
                 LinearLayoutManager.VERTICAL, false

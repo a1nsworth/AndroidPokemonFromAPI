@@ -1,4 +1,4 @@
-package ru.a1nsworth.lab3.pokemon
+package ru.a1nsworth.lab3.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,23 +6,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.a1nsworth.lab3.R
 import ru.a1nsworth.lab3.databinding.PokemonItemBinding
+import ru.a1nsworth.lab3.model.pokemon.Pokemon
 
 class PokemonAdapter(private val listener: ClickListener) :
     RecyclerView.Adapter<PokemonAdapter.PokemonHolder>() {
-
-    var pokemons_names: List<String> = arrayListOf()
+    var pokemon: List<Pokemon> = arrayListOf()
 
     interface ClickListener {
-        fun onClick(pokemon_name: String)
+        fun onClick(pokemon: Pokemon)
     }
 
     class PokemonHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val bindings = PokemonItemBinding.bind(item)
 
-        fun bind(pokemon_name: String, listener: ClickListener) {
-//            bindings.pokemonImage.setImageBitmap(pokemon_name.bitmap)
+        fun bind(pokemon: Pokemon, listener: ClickListener) {
+            bindings.pokemonImage.setImageBitmap(pokemon.image)
 
-            itemView.setOnClickListener { listener.onClick(pokemon_name) }
+            itemView.setOnClickListener { listener.onClick(pokemon) }
         }
     }
 
@@ -33,10 +33,10 @@ class PokemonAdapter(private val listener: ClickListener) :
     }
 
     override fun getItemCount(): Int {
-        return pokemons_names.size
+        return pokemon.size
     }
 
     override fun onBindViewHolder(holder: PokemonHolder, position: Int) {
-        holder.bind(pokemons_names[position], listener)
+        holder.bind(pokemon[position], listener)
     }
 }

@@ -13,11 +13,11 @@ import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
+import ru.a1nsworth.lab3.adapter.PokemonAdapter
 import ru.a1nsworth.lab3.databinding.ActivityMainBinding
 import ru.a1nsworth.lab3.dependence.Database
 import ru.a1nsworth.lab3.model.pokemon.Attack
 import ru.a1nsworth.lab3.model.pokemon.Pokemon
-import ru.a1nsworth.lab3.pokemon.PokemonAdapter
 import java.io.IOException
 
 class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
@@ -32,9 +32,6 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Database.init(applicationContext)
-//        Thread {
-//            Database.pokemonRepository.getAll()
-//        }.start()
         initPokemonAdapter()
     }
 
@@ -43,12 +40,15 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
+                runOnUiThread {
+                    pokemonAdapter.pokemon = Database.pokemonRepository.getListPokemons()
+                    initPokemonRecyclerView()
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
-                    var pokemons_names: List<String> = listOf()
+                    var pokemon: List<Pokemon> = listOf()
                     if (!response.isSuccessful) {
                         throw IOException("Unexpected code $response")
                     }
@@ -70,31 +70,15 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
                             attacksJson = item.getJSONArray("attacks")
                             for (k in 0 until attacksJson.length()) {
                                 val attackObj = attacksJson.getJSONObject(k)
-                                val attack = Attack(
+                                attacks.add(Attack(
                                     attackObj.get("name").toString(),
                                     attackObj.get("damage").toString(),
                                     attackObj.get("text").toString(),
                                     null
-                                )
-                                attacks.add(attack)
-                                Database.attackRepository.insert(attack)
+                                ))
                             }
                         }
 
-                        val pokemon = Pokemon(
-                            item.get("name").toString(),
-                            item.get("hp").toString().toInt(),
-                            types.toList(),
-                            Bitmap.createBitmap(
-                                BitmapFactory.decodeStream(
-                                    java.net.URL(
-                                        item.getJSONObject(
-                                            "images"
-                                        ).get("small").toString()
-                                    ).openStream()
-                                )
-                            ),
-                        )
                         Database.pokemonRepository.insert(Pokemon(
                             item.get("name").toString(),
                             item.get("hp").toString().toInt(),
@@ -110,10 +94,10 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
                             ),
                         ), attacks)
 
-                        pokemons_names = Database.pokemonRepository.getNamesPokemons()
                     }
+                    pokemon = Database.pokemonRepository.getListPokemons()
                     runOnUiThread {
-                        pokemonAdapter.pokemons_names = pokemons_names
+                        pokemonAdapter.pokemon = pokemon
                         initPokemonRecyclerView()
                     }
                 }
@@ -131,11 +115,11 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
         }
     }
 
-    override fun onClick(pokemon_name: String){
+    override fun onClick(pokemon: Pokemon) {
         startActivity(Intent(this, DetailActivity::class.java).apply {
             putExtra(
-                "pokemon_name",
-                pokemon_name
+                "pokemonId",
+                pokemon.id
             )
         })
     }
