@@ -17,13 +17,25 @@
           <theme>@style/Theme.Lab3</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/pokemon_attack_detail.xml">
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_attacks_info.xml">
         <config>
           <state>Landscape</state>
           <theme>@style/Theme.Lab3</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/pokemon_item.xml">
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_info.xml">
+        <config>
+          <state>Landscape</state>
+          <theme>@style/Theme.Lab3</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_list_pokemons.xml">
+        <config>
+          <state>Landscape</state>
+          <theme>@style/Theme.Lab3</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/pokemon_attack_detail.xml">
         <config>
           <state>Landscape</state>
           <theme>@style/Theme.Lab3</theme>
@@ -35,7 +47,26 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="76b23f34-7f20-4e58-b072-7c900c3fd498" name="Changes" comment="adding sqllite load" />
+    <list default="true" id="76b23f34-7f20-4e58-b072-7c900c3fd498" name="Changes" comment="end adding fragments">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/fragment/DetailInfo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/fragment/ListPokemons.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/util/JSONPokemonParser.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_info.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_list_pokemons.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/activity/DetailActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/activity/DetailActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/activity/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/activity/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_detail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,8 +101,8 @@
       <list>
         <option value="layoutResourceFile" />
         <option value="Kotlin Data Class" />
-        <option value="Kotlin Object" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Object" />
       </list>
     </option>
   </component>
@@ -110,7 +141,7 @@
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
     "full.screen.before.presentation.mode": "false",
-    "git-widget-placeholder": "lab4",
+    "git-widget-placeholder": "adding__fragments",
     "ignore_missing_gitignore": "true",
     "last_opened_file_path": "/home/a1nsworth/programming/Android/lab3/app/src/main/res/drawable",
     "project.structure.last.edited": "Dependencies",
@@ -135,6 +166,7 @@
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="ru.a1nsworth.lab3.fragment" />
       <recent name="ru.a1nsworth.lab3.dao.pokemon" />
       <recent name="ru.a1nsworth.lab3.dao.attack" />
       <recent name="ru.a1nsworth.lab3.activity" />
@@ -294,23 +326,44 @@
       <option name="project" value="LOCAL" />
       <updated>1712415169542</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="other">
+      <option name="closed" value="true" />
+      <created>1712499980421</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1712499980421</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init commit" />
     <MESSAGE value="finish" />
     <MESSAGE value="adding lab5" />
     <MESSAGE value="adding sqllite load" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding sqllite load" />
+    <MESSAGE value="other" />
+    <MESSAGE value="end adding fragments" />
+    <option name="LAST_COMMIT_MESSAGE" value="end adding fragments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/activity/DetailActivity.kt</url>
-          <line>22</line>
-          <option name="timeStamp" value="14" />
+          <url>file://$PROJECT_DIR$/app/src/main/java/ru/a1nsworth/lab3/activity/MainActivity.kt</url>
+          <line>29</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
