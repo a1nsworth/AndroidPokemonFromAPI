@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import okhttp3.Call
@@ -14,9 +13,11 @@ import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
+import ru.a1nsworth.lab3.adapter.PokemonAdapter
 import ru.a1nsworth.lab3.databinding.ActivityMainBinding
-import ru.a1nsworth.lab3.pokemon.Pokemon
-import ru.a1nsworth.lab3.pokemon.PokemonAdapter
+import ru.a1nsworth.lab3.dependence.Database
+import ru.a1nsworth.lab3.model.pokemon.Attack
+import ru.a1nsworth.lab3.model.pokemon.Pokemon
 import java.io.IOException
 
 class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
@@ -30,6 +31,7 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Database.init(applicationContext)
         initPokemonAdapter()
     }
 
@@ -38,13 +40,15 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
+                runOnUiThread {
+                    pokemonAdapter.pokemon = Database.pokemonRepository.getListPokemons()
+                    initPokemonRecyclerView()
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
-                    val pokemons: MutableList<Pokemon> = arrayListOf()
-
+                    var pokemon: List<Pokemon> = listOf()
                     if (!response.isSuccessful) {
                         throw IOException("Unexpected code $response")
                     }
@@ -61,40 +65,39 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
                         }
 
                         val attacksJson: JSONArray
-                        val attacks: MutableList<Pokemon.Attack> = arrayListOf()
+                        val attacks: MutableList<Attack> = arrayListOf()
                         if (item.has("attacks")) {
                             attacksJson = item.getJSONArray("attacks")
                             for (k in 0 until attacksJson.length()) {
                                 val attackObj = attacksJson.getJSONObject(k)
-                                attacks.add(
-                                    Pokemon.Attack(
-                                        attackObj.get("name").toString(),
-                                        attackObj.get("text").toString(),
-                                        attackObj.get("damage").toString()
-                                    )
-                                )
+                                attacks.add(Attack(
+                                    attackObj.get("name").toString(),
+                                    attackObj.get("damage").toString(),
+                                    attackObj.get("text").toString(),
+                                    null
+                                ))
                             }
                         }
-                        pokemons.add(
-                            Pokemon(
-                                item.get("name").toString(),
-                                Bitmap.createBitmap(
-                                    BitmapFactory.decodeStream(
-                                        java.net.URL(
-                                            item.getJSONObject(
-                                                "images"
-                                            ).get("small").toString()
-                                        ).openStream()
-                                    )
-                                ),
-                                item.get("hp").toString(),
-                                types,
-                                attacks
-                            )
-                        )
+
+                        Database.pokemonRepository.insert(Pokemon(
+                            item.get("name").toString(),
+                            item.get("hp").toString().toInt(),
+                            types.toList(),
+                            Bitmap.createBitmap(
+                                BitmapFactory.decodeStream(
+                                    java.net.URL(
+                                        item.getJSONObject(
+                                            "images"
+                                        ).get("small").toString()
+                                    ).openStream()
+                                )
+                            ),
+                        ), attacks)
+
                     }
+                    pokemon = Database.pokemonRepository.getListPokemons()
                     runOnUiThread {
-                        pokemonAdapter.pokemons = pokemons
+                        pokemonAdapter.pokemon = pokemon
                         initPokemonRecyclerView()
                     }
                 }
@@ -109,20 +112,14 @@ class MainActivity : PokemonAdapter.ClickListener, AppCompatActivity() {
             pokemonRecyclerView.layoutManager =
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
             pokemonRecyclerView.adapter = pokemonAdapter
-            Log.d("Array", pokemonAdapter.pokemons.toString())
         }
     }
 
     override fun onClick(pokemon: Pokemon) {
         startActivity(Intent(this, DetailActivity::class.java).apply {
             putExtra(
-                "pokemon",
-                pokemon
-            )
-
-            putExtra(
-                "bitMapImage",
-                pokemon.bitmap
+                "pokemonId",
+                pokemon.id
             )
         })
     }
